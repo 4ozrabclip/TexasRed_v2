@@ -1,5 +1,6 @@
 #include "regexsandboxpage.h"
 #include "ui_regexsandboxpage.h"
+#include "../utils/regexhighlighter.h"
 
 RegexSandboxPage::RegexSandboxPage(QWidget *parent)
     : QWidget(parent)

@@ -1,12 +1,11 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "portscannerpage.h"
-#include "regexsandboxpage.h"
 
 #include <QMainWindow>
 #include <QStack>
-
+class RegexSandboxPage;
+class PortScannerPage;
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;

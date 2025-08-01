@@ -13,20 +13,20 @@ find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets)
 
 set(PROJECT_SOURCES
-        main.cpp
-        mainwindow.cpp
-        mainwindow.h
-        mainwindow.ui
+        src/core/main.cpp
+        src/core/mainwindow.cpp
+        src/core/mainwindow.h
+        src/core/mainwindow.ui
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(TexasRed_Desktop
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
-        regexsandboxpage.h regexsandboxpage.cpp regexsandboxpage.ui
-        portscannerpage.h portscannerpage.cpp portscannerpage.ui
-        regexhighlighter.h regexhighlighter.cpp
-        Settings.h
+        src/pages/regexsandboxpage.h src/pages/regexsandboxpage.cpp src/pages/regexsandboxpage.ui
+        src/pages/portscannerpage.h src/pages/portscannerpage.cpp src/pages/portscannerpage.ui
+        src/utils/regexhighlighter.h src/utils/regexhighlighter.cpp
+        src/utils/Settings.h
 
     )
 # Define target properties for Android with Qt 6 as:

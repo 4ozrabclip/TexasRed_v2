@@ -1,7 +1,9 @@
 #include <QStyleHints>
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
-#include "Settings.h"
+#include "../utils/Settings.h"
+#include "../pages/regexsandboxpage.h"
+#include "../pages/portscannerpage.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)

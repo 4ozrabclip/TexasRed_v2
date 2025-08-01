@@ -1,10 +1,10 @@
 #ifndef REGEXSANDBOXPAGE_H
 #define REGEXSANDBOXPAGE_H
 
-#include "regexhighlighter.h"
-
 #include <QWidget>
 
+
+class RegexHighlighter;
 namespace Ui {
 class RegexSandboxPage;
 }
