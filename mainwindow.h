@@ -1,6 +1,9 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "portscannerpage.h"
+#include "regexsandboxpage.h"
+
 #include <QMainWindow>
 #include <QStack>
 
@@ -18,19 +21,11 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-private slots:
-    void on_openPortScannerButton_clicked();
-
-    void on_openRegexSbButton_clicked();
-
-
-    void on_toggleThemeButton_clicked();
-
-    void on_backButton_clicked();
 
 private:
     /** Init Functions **/
-    void initializeMemberVariables();
+    void initializePages();
+    void initializeSettings();
     void initializePalettes();
 
     /** Helper Functions **/
@@ -38,10 +33,9 @@ private:
     void applyColourTheme();
 
 
-
-
-    /** Private Variables **/
-    bool m_isDarkMode;
+    /** Pages **/
+    RegexSandboxPage* regexSbPage;
+    PortScannerPage* portScannerPage;
 
     QPalette darkModePalette;
     QPalette lightModePalette;
@@ -50,6 +44,16 @@ private:
 
 
 
+private slots:
+    void on_openPortScannerButton_clicked();
+
+    void on_openRegexSbButton_clicked();
+
+    void on_toggleThemeButton_clicked();
+
+    void on_backButton_clicked();
+
+private:
     Ui::MainWindow *ui;
 
 

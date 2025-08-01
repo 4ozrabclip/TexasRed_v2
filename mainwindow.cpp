@@ -1,5 +1,7 @@
+#include <QStyleHints>
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
+#include "Settings.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -8,24 +10,29 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     setAutoFillBackground(true);
 
-    openTab(ui->frontPage);
 
-
-    initializeMemberVariables();
-
+    // Initialize Members
+    initializePages();
     initializePalettes();
+    initializeSettings();
 
+    // Apply Settings
     applyColourTheme();
 
+    openTab(ui->frontPage);
 }
+
 MainWindow::~MainWindow()
 {
     delete ui;
 }
 
-void MainWindow::initializeMemberVariables()
+void MainWindow::initializePages()
 {
-    m_isDarkMode = false;
+    regexSbPage = new RegexSandboxPage(this);
+    ui->stackedWidget->addWidget(regexSbPage);
+    portScannerPage = new PortScannerPage(this);
+    ui->stackedWidget->addWidget(portScannerPage);
 }
 
 void MainWindow::initializePalettes()
@@ -57,6 +64,13 @@ void MainWindow::initializePalettes()
     lightModePalette.setColor(QPalette::Link, QColor(0, 122, 204));
     lightModePalette.setColor(QPalette::Highlight, QColor(0, 122, 204));
     lightModePalette.setColor(QPalette::HighlightedText, Qt::white);
+
+}
+void MainWindow::initializeSettings()
+{
+    bool isSysDarkMode = qApp->styleHints()->colorScheme() == Qt::ColorScheme::Dark;
+    Settings::inst().setDarkMode(isSysDarkMode);
+
 
 }
 
@@ -93,28 +107,27 @@ void MainWindow::openTab(QWidget *inWidget)
 
 void MainWindow::applyColourTheme()
 {
-    qApp->setPalette(m_isDarkMode ? darkModePalette : lightModePalette);
+    const bool isDarkMode = Settings::inst().getDarkMode();
+    qApp->setPalette(isDarkMode ? darkModePalette : lightModePalette);
 }
-
 
 
 void MainWindow::on_openPortScannerButton_clicked()
 {
-    openTab(ui->portScannerPage);
-
+    openTab(portScannerPage);
 }
-
 
 void MainWindow::on_openRegexSbButton_clicked()
 {
-    openTab(ui->regexSbPage);
+    openTab(regexSbPage);
 }
-
-
 
 void MainWindow::on_toggleThemeButton_clicked()
 {
-    m_isDarkMode = !m_isDarkMode;
+    const bool current = Settings::inst().getDarkMode();
+
+    Settings::inst().setDarkMode(!current);
+
     applyColourTheme();
 }
 
@@ -124,4 +137,5 @@ void MainWindow::on_backButton_clicked()
     navHistory.pop();
     openTab(navHistory.back());
 }
+
 

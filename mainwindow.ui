@@ -68,33 +68,6 @@
       </layout>
      </widget>
     </widget>
-    <widget class="QWidget" name="regexSbPage">
-     <widget class="QTextEdit" name="regexInputText">
-      <property name="geometry">
-       <rect>
-        <x>170</x>
-        <y>180</y>
-        <width>104</width>
-        <height>70</height>
-       </rect>
-      </property>
-     </widget>
-    </widget>
-    <widget class="QWidget" name="portScannerPage">
-     <widget class="QPushButton" name="scanPortsButton">
-      <property name="geometry">
-       <rect>
-        <x>200</x>
-        <y>290</y>
-        <width>80</width>
-        <height>24</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Scan</string>
-      </property>
-     </widget>
-    </widget>
    </widget>
    <widget class="QPushButton" name="toggleThemeButton">
     <property name="enabled">
