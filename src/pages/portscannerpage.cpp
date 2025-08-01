@@ -1,5 +1,5 @@
 #include "portscannerpage.h"
-#include "ui_portscannerpage.h"
+#include "src/pages/ui_portscannerpage.h"
 
 PortScannerPage::PortScannerPage(QWidget *parent)
     : QWidget(parent)

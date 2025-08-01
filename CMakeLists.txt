@@ -27,6 +27,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/pages/portscannerpage.h src/pages/portscannerpage.cpp src/pages/portscannerpage.ui
         src/utils/regexhighlighter.h src/utils/regexhighlighter.cpp
         src/utils/Settings.h
+        src/pages/logfileanalyzerpage.h src/pages/logfileanalyzerpage.cpp src/pages/logfileanalyzerpage.ui
 
     )
 # Define target properties for Android with Qt 6 as:

@@ -18,55 +18,78 @@
     <property name="geometry">
      <rect>
       <x>9</x>
-      <y>29</y>
-      <width>516</width>
-      <height>521</height>
+      <y>39</y>
+      <width>511</width>
+      <height>321</height>
      </rect>
     </property>
     <property name="currentIndex">
      <number>0</number>
     </property>
     <widget class="QWidget" name="frontPage">
-     <widget class="QWidget" name="gridLayoutWidget">
-      <property name="geometry">
-       <rect>
-        <x>139</x>
-        <y>159</y>
-        <width>261</width>
-        <height>191</height>
-       </rect>
-      </property>
-      <layout class="QGridLayout" name="mainButtonGrid">
-       <item row="0" column="0">
-        <widget class="QPushButton" name="openPortScannerButton">
-         <property name="text">
-          <string>Port Scanner</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QPushButton" name="pushButton_3">
-         <property name="text">
-          <string>PushButton</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QPushButton" name="openRegexSbButton">
-         <property name="text">
-          <string>Regex Sandbox</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QPushButton" name="pushButton_4">
-         <property name="text">
-          <string>PushButton</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
+     <layout class="QGridLayout" name="frontPageGrid">
+      <item row="0" column="0">
+       <layout class="QGridLayout" name="mainButtonGrid">
+        <item row="2" column="1">
+         <widget class="QPushButton" name="pushButton_4">
+          <property name="text">
+           <string>PushButton</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QPushButton" name="openPortScannerButton">
+          <property name="text">
+           <string>Port Scanner</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0" colspan="2">
+         <widget class="QPushButton" name="openRegexToolsButton">
+          <property name="text">
+           <string>Regex Tools</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QWidget" name="regexToolsPage">
+     <layout class="QGridLayout" name="regexPageGrid">
+      <item row="0" column="0">
+       <layout class="QGridLayout" name="regexToolsButtonGrid">
+        <item row="1" column="0">
+         <widget class="QPushButton" name="pushButton">
+          <property name="text">
+           <string>PushButton</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QPushButton" name="openRegexSbButton">
+          <property name="text">
+           <string>Regex Sandbox</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QPushButton" name="pushButton_2">
+          <property name="text">
+           <string>PushButton</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QPushButton" name="pushButton_9">
+          <property name="text">
+           <string>PushButton</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
     </widget>
    </widget>
    <widget class="QPushButton" name="toggleThemeButton">

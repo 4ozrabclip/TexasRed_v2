@@ -20,6 +20,9 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void navigateTo(QWidget* inPage = nullptr);
+    void openTab(QWidget* inWidget = nullptr);
+
 
 private:
     /** Init Functions **/
@@ -28,7 +31,7 @@ private:
     void initializePalettes();
 
     /** Helper Functions **/
-    void openTab(QWidget* inWidget = nullptr);
+
     void applyColourTheme();
 
 
@@ -51,6 +54,8 @@ private slots:
     void on_toggleThemeButton_clicked();
 
     void on_backButton_clicked();
+
+    void on_openRegexToolsButton_clicked();
 
 private:
     Ui::MainWindow *ui;

@@ -1,9 +1,9 @@
 #include <QStyleHints>
 #include "mainwindow.h"
-#include "./ui_mainwindow.h"
 #include "../utils/Settings.h"
 #include "../pages/regexsandboxpage.h"
 #include "../pages/portscannerpage.h"
+#include "src/core/ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -28,6 +28,8 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+
 
 void MainWindow::initializePages()
 {
@@ -106,7 +108,6 @@ void MainWindow::openTab(QWidget *inWidget)
     ui->stackedWidget->setCurrentWidget(inWidget);
 
 }
-
 void MainWindow::applyColourTheme()
 {
     const bool isDarkMode = Settings::inst().getDarkMode();
@@ -136,8 +137,16 @@ void MainWindow::on_toggleThemeButton_clicked()
 
 void MainWindow::on_backButton_clicked()
 {
-    navHistory.pop();
-    openTab(navHistory.back());
+    if (navHistory.isEmpty()) return;
+
+    QWidget* lastPage = navHistory.pop();
+    ui->stackedWidget->setCurrentWidget(lastPage);
+    ui->backButton->setVisible(lastPage != ui->frontPage);
 }
 
+
+void MainWindow::on_openRegexToolsButton_clicked()
+{
+    openTab(ui->regexToolsPage);
+}
 
