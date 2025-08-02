@@ -97,7 +97,7 @@ R"(  ****           *                                                     ***** 
             m_typingTimer->stop();
         }
     });
-    m_typingTimer->start(100);
+    m_typingTimer->start(m_titleTimerSpeed);
 
 }
 

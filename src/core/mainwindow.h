@@ -47,6 +47,7 @@ private:
     QTimer* m_typingTimer;
     QString m_fullTitle;
     int m_titleIndex;
+    const int m_titleTimerSpeed = 2;
 
 
 
