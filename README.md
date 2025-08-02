@@ -7,6 +7,10 @@ TexasRed.v2 is a multi-tool application built with Qt to showcase my practical s
 #### Regex Sandbox
 A live regex playground with real-time syntax highlighting.  Useful for  crafting and testing regular expressions safely.
 
+#### Ema to Obj Converter
+Eplans proprietary electrical CAD format .ema, to standard mesh obj format.  \
+`This parser was originally written in Python in collaboration with Ross Leitch (Balbatross) during my contract with UltraViolet Ltd. Written permission has been granted by UltraViolet Ltd and Ross Leitch to be converted into Qt C++ and featured on TexasRed.v2.`
+
 
 ## Highlights
 
