@@ -20,7 +20,6 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    void navigateTo(QWidget* inPage = nullptr);
     void openTab(QWidget* inWidget = nullptr);
 
 
@@ -56,6 +55,8 @@ private slots:
     void on_backButton_clicked();
 
     void on_openRegexToolsButton_clicked();
+
+    void on_openConverterToolsButton_clicked();
 
 private:
     Ui::MainWindow *ui;

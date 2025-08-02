@@ -20,6 +20,8 @@ set(PROJECT_SOURCES
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
+    find_package(Qt6 REQUIRED COMPONENTS Core)
+
     qt_add_executable(TexasRed_Desktop
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
@@ -28,6 +30,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/utils/regexhighlighter.h src/utils/regexhighlighter.cpp
         src/utils/Settings.h
         src/pages/logfileanalyzerpage.h src/pages/logfileanalyzerpage.cpp src/pages/logfileanalyzerpage.ui
+        src/pages/emato3dconverterpage.h src/pages/emato3dconverterpage.cpp src/pages/emato3dconverterpage.ui
+        src/utils/emato3dparser.h src/utils/emato3dparser.cpp
 
     )
 # Define target properties for Android with Qt 6 as:
@@ -49,6 +53,7 @@ else()
 endif()
 
 target_link_libraries(TexasRed_Desktop PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
+target_link_libraries(TexasRed_Desktop PRIVATE Qt6::Core)
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
 # If you are developing for iOS or macOS you should consider setting an

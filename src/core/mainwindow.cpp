@@ -30,7 +30,6 @@ MainWindow::~MainWindow()
 }
 
 
-
 void MainWindow::initializePages()
 {
     regexSbPage = new RegexSandboxPage(this);
@@ -115,15 +114,8 @@ void MainWindow::applyColourTheme()
 }
 
 
-void MainWindow::on_openPortScannerButton_clicked()
-{
-    openTab(portScannerPage);
-}
 
-void MainWindow::on_openRegexSbButton_clicked()
-{
-    openTab(regexSbPage);
-}
+/** Button Slots  **/
 
 void MainWindow::on_toggleThemeButton_clicked()
 {
@@ -134,7 +126,6 @@ void MainWindow::on_toggleThemeButton_clicked()
     applyColourTheme();
 }
 
-
 void MainWindow::on_backButton_clicked()
 {
     if (navHistory.isEmpty()) return;
@@ -144,9 +135,23 @@ void MainWindow::on_backButton_clicked()
     ui->backButton->setVisible(lastPage != ui->frontPage);
 }
 
+void MainWindow::on_openPortScannerButton_clicked()
+{
+    openTab(portScannerPage);
+}
+
+void MainWindow::on_openRegexSbButton_clicked()
+{
+    openTab(regexSbPage);
+}
 
 void MainWindow::on_openRegexToolsButton_clicked()
 {
     openTab(ui->regexToolsPage);
+}
+
+void MainWindow::on_openConverterToolsButton_clicked()
+{
+    openTab(ui->converterToolsPage);
 }
 
