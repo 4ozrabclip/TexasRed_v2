@@ -19,8 +19,6 @@ emaTo3dConverterPage::~emaTo3dConverterPage()
     delete m_parser;
 }
 
-
-
 void emaTo3dConverterPage::on_browseInputButton_clicked()
 {
     QString fileName = QFileDialog::getOpenFileName(this, "Select .ema File", "", "EMA Files (*.ema)");

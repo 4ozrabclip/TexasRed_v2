@@ -1,4 +1,5 @@
 #include <QStyleHints>
+#include <QTimer>
 
 #include "mainwindow.h"
 #include "../utils/Settings.h"
@@ -19,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
     // Initialize Members
     initializePages();
     initializeSettings();
+    initializeTitle();
 
     // Apply Settings
     applyColourTheme();
@@ -28,6 +30,8 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    m_typingTimer->stop();
+    delete m_typingTimer;
     delete ui;
 }
 
@@ -55,6 +59,45 @@ void MainWindow::initializeSettings()
     bool isSysDarkMode = qApp->styleHints()->colorScheme() == Qt::ColorScheme::Dark;
     Settings::inst().setDarkMode(isSysDarkMode);
 
+
+}
+
+void MainWindow::initializeTitle()
+{
+    const QString fullTitle =
+R"(  ****           *                                                     ***** ***                 **
+     *  *************                                                   ******  * **                  **
+    *     *********                                                    **   *  *  **                  **
+    *     *  *                                                        *    *  *   **                  **
+     **  *  **                    ***    ***                  ****        *  *    *                   **
+        *  ***            ***    * ***  **** *     ****      * **** *    ** **   *       ***      *** **
+       **   **           * ***      *** *****     * ***  *  **  ****     ** **  *       * ***    *********
+       **   **          *   ***      ***  **     *   ****  ****          ** ****       *   ***  **   ****
+       **   **         **    ***      ***       **    **     ***         ** **  ***   **    *** **    **
+       **   **         ********      * ***      **    **       ***       ** **    **  ********  **    **
+        **  **         *******      *   ***     **    **         ***     *  **    **  *******   **    **
+         ** *      *   **          *     ***    **    **    ****  **        *     **  **        **    **
+          ***     *    ****    *  *       *** * **    **   * **** *     ****      *** ****    * **    **
+           *******      *******  *         ***   ***** **     ****     *  ****    **   *******   *****
+             ***         *****                    ***   **            *    **     *     *****     ***
+                                                                      *
+                                                                       **
+
+
+                                                                                                           )";
+
+    m_titleIndex = 0;
+
+    m_typingTimer = new QTimer(this);
+    connect(m_typingTimer, &QTimer::timeout, this, [this, fullTitle]() {
+        if (m_titleIndex <= fullTitle.size()) {
+            ui->titleLabel->setText(fullTitle.left(m_titleIndex));
+            m_titleIndex++;
+        } else {
+            m_typingTimer->stop();
+        }
+    });
+    m_typingTimer->start(100);
 
 }
 

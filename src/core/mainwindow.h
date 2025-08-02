@@ -29,6 +29,7 @@ private:
     void initializePages();
     void initializeSettings();
     void initializePalettes();
+    void initializeTitle();
 
     /** Helper Functions **/
     QString loadStyle(const QString& inPath);
@@ -41,6 +42,11 @@ private:
     emaTo3dConverterPage* emaTo3dPage;
 
     QStack<QWidget*> navHistory;
+
+    /** Title Typing **/
+    QTimer* m_typingTimer;
+    QString m_fullTitle;
+    int m_titleIndex;
 
 
 
