@@ -1,6 +1,8 @@
 #include <QStyleHints>
+
 #include "mainwindow.h"
 #include "../utils/Settings.h"
+#include "../pages/emato3dconverterpage.h"
 #include "../pages/regexsandboxpage.h"
 #include "../pages/portscannerpage.h"
 #include "src/core/ui_mainwindow.h"
@@ -36,6 +38,8 @@ void MainWindow::initializePages()
     ui->stackedWidget->addWidget(regexSbPage);
     portScannerPage = new PortScannerPage(this);
     ui->stackedWidget->addWidget(portScannerPage);
+    emaTo3dPage = new emaTo3dConverterPage(this);
+    ui->stackedWidget->addWidget(emaTo3dPage);
 }
 
 void MainWindow::initializePalettes()
@@ -47,8 +51,8 @@ void MainWindow::initializePalettes()
     darkModePalette.setColor(QPalette::ToolTipBase, Qt::white);
     darkModePalette.setColor(QPalette::ToolTipText, Qt::white);
     darkModePalette.setColor(QPalette::Text, Qt::white);
-    darkModePalette.setColor(QPalette::Button, QColor(64, 64, 64));
-    darkModePalette.setColor(QPalette::ButtonText, Qt::white);
+    darkModePalette.setColor(QPalette::Button, QColor(42, 43, 43));
+    darkModePalette.setColor(QPalette::ButtonText, Qt::black);
     darkModePalette.setColor(QPalette::BrightText, Qt::red);
     darkModePalette.setColor(QPalette::Link, QColor(42, 130, 218));
     darkModePalette.setColor(QPalette::Highlight, QColor(42, 130, 218));
@@ -139,19 +143,19 @@ void MainWindow::on_openPortScannerButton_clicked()
 {
     openTab(portScannerPage);
 }
-
 void MainWindow::on_openRegexSbButton_clicked()
 {
     openTab(regexSbPage);
 }
-
+void MainWindow::on_openEmaToObjButton_clicked()
+{
+    openTab(emaTo3dPage);
+}
 void MainWindow::on_openRegexToolsButton_clicked()
 {
     openTab(ui->regexToolsPage);
 }
-
 void MainWindow::on_openConverterToolsButton_clicked()
 {
     openTab(ui->converterToolsPage);
 }
-

@@ -4,17 +4,7 @@
 #include <QVector>
 #include <QRegularExpression>
 
-struct Vertex {
-    int index;
-    float x, y, z;
-};
-struct Face {
-    QVector<int> indices;
-};
-struct MeshSection {
-    int faceCount;
-    QVector<Face> faces;
-};
+
 
 
 EmaTo3dParser::EmaTo3dParser(QObject *parent)

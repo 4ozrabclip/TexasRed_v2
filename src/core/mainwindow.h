@@ -6,6 +6,7 @@
 #include <QStack>
 class RegexSandboxPage;
 class PortScannerPage;
+class emaTo3dConverterPage;
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -37,6 +38,7 @@ private:
     /** Pages **/
     RegexSandboxPage* regexSbPage;
     PortScannerPage* portScannerPage;
+    emaTo3dConverterPage* emaTo3dPage;
 
     QPalette darkModePalette;
     QPalette lightModePalette;
@@ -57,6 +59,8 @@ private slots:
     void on_openRegexToolsButton_clicked();
 
     void on_openConverterToolsButton_clicked();
+
+    void on_openEmaToObjButton_clicked();
 
 private:
     Ui::MainWindow *ui;
