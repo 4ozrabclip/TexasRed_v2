@@ -1,0 +1,37 @@
+QWidget {
+    background-color: #F0F0F0;
+    color: black;
+}
+
+QPushButton {
+    background-color: #E0E0E0;
+    color: black;
+    border: 1px solid #A0A0A0;
+    padding: 5px;
+}
+
+QPushButton:hover {
+    background-color: #D0D0D0;
+}
+
+QLineEdit, QTextEdit, QPlainTextEdit {
+    background-color: white;
+    color: black;
+    border: 1px solid #A0A0A0;
+}
+
+QMenuBar, QMenu, QToolTip {
+    background-color: #F0F0F0;
+    color: black;
+}
+
+QScrollBar:vertical, QScrollBar:horizontal {
+    background: #F0F0F0;
+    border: none;
+    width: 12px;
+}
+
+QScrollBar::handle {
+    background: #B0B0B0;
+    border-radius: 5px;
+}

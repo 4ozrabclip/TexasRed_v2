@@ -6,6 +6,7 @@
 #include "../pages/regexsandboxpage.h"
 #include "../pages/portscannerpage.h"
 #include "src/core/ui_mainwindow.h"
+#include <QFile>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -17,7 +18,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Initialize Members
     initializePages();
-    initializePalettes();
     initializeSettings();
 
     // Apply Settings
@@ -42,36 +42,13 @@ void MainWindow::initializePages()
     ui->stackedWidget->addWidget(emaTo3dPage);
 }
 
-void MainWindow::initializePalettes()
+
+QString MainWindow::loadStyle(const QString &inPath)
 {
-    darkModePalette.setColor(QPalette::Window, QColor(43, 43, 43));
-    darkModePalette.setColor(QPalette::WindowText, Qt::white);
-    darkModePalette.setColor(QPalette::Base, QColor(64, 64, 64));
-    darkModePalette.setColor(QPalette::AlternateBase, QColor(80, 80, 80));
-    darkModePalette.setColor(QPalette::ToolTipBase, Qt::white);
-    darkModePalette.setColor(QPalette::ToolTipText, Qt::white);
-    darkModePalette.setColor(QPalette::Text, Qt::white);
-    darkModePalette.setColor(QPalette::Button, QColor(42, 43, 43));
-    darkModePalette.setColor(QPalette::ButtonText, Qt::black);
-    darkModePalette.setColor(QPalette::BrightText, Qt::red);
-    darkModePalette.setColor(QPalette::Link, QColor(42, 130, 218));
-    darkModePalette.setColor(QPalette::Highlight, QColor(42, 130, 218));
-    darkModePalette.setColor(QPalette::HighlightedText, Qt::black);
-
-    lightModePalette.setColor(QPalette::Window, Qt::white);
-    lightModePalette.setColor(QPalette::WindowText, Qt::black);
-    lightModePalette.setColor(QPalette::Base, Qt::white);
-    lightModePalette.setColor(QPalette::AlternateBase, QColor(245, 245, 245));
-    lightModePalette.setColor(QPalette::ToolTipBase, Qt::black);
-    lightModePalette.setColor(QPalette::ToolTipText, Qt::white);
-    lightModePalette.setColor(QPalette::Text, Qt::black);
-    lightModePalette.setColor(QPalette::Button, QColor(240, 240, 240));
-    lightModePalette.setColor(QPalette::ButtonText, Qt::black);
-    lightModePalette.setColor(QPalette::BrightText, Qt::red);
-    lightModePalette.setColor(QPalette::Link, QColor(0, 122, 204));
-    lightModePalette.setColor(QPalette::Highlight, QColor(0, 122, 204));
-    lightModePalette.setColor(QPalette::HighlightedText, Qt::white);
-
+    QFile file(inPath);
+    if (file.open(QFile::ReadOnly | QFile::Text))
+        return QString::fromUtf8(file.readAll());
+    return {};
 }
 void MainWindow::initializeSettings()
 {
@@ -114,7 +91,11 @@ void MainWindow::openTab(QWidget *inWidget)
 void MainWindow::applyColourTheme()
 {
     const bool isDarkMode = Settings::inst().getDarkMode();
-    qApp->setPalette(isDarkMode ? darkModePalette : lightModePalette);
+
+    QString styleSheetPath = isDarkMode ? ":/styles/darkmode" : ":/styles/lightmode";
+
+    qApp->setStyleSheet(loadStyle(styleSheetPath));
+
 }
 
 

@@ -32,6 +32,8 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         src/pages/logfileanalyzerpage.h src/pages/logfileanalyzerpage.cpp src/pages/logfileanalyzerpage.ui
         src/pages/emato3dconverterpage.h src/pages/emato3dconverterpage.cpp src/pages/emato3dconverterpage.ui
         src/utils/emato3dparser.h src/utils/emato3dparser.cpp
+        src/resources.qrc
+
 
     )
 # Define target properties for Android with Qt 6 as:

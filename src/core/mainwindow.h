@@ -31,7 +31,7 @@ private:
     void initializePalettes();
 
     /** Helper Functions **/
-
+    QString loadStyle(const QString& inPath);
     void applyColourTheme();
 
 
@@ -39,9 +39,6 @@ private:
     RegexSandboxPage* regexSbPage;
     PortScannerPage* portScannerPage;
     emaTo3dConverterPage* emaTo3dPage;
-
-    QPalette darkModePalette;
-    QPalette lightModePalette;
 
     QStack<QWidget*> navHistory;
 
