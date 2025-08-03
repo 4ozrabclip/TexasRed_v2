@@ -1,13 +1,15 @@
 #include <QStyleHints>
 #include <QTimer>
+#include <QFile>
 
 #include "mainwindow.h"
+#include "src/core/ui_mainwindow.h"
 #include "../utils/Settings.h"
 #include "../pages/emato3dconverterpage.h"
 #include "../pages/regexsandboxpage.h"
 #include "../pages/portscannerpage.h"
-#include "src/core/ui_mainwindow.h"
-#include <QFile>
+
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -129,8 +131,6 @@ void MainWindow::applyColourTheme()
     qApp->setStyleSheet(loadTextResource(styleSheetPath));
 
 }
-
-
 
 /** Button Slots  **/
 

@@ -14,11 +14,20 @@ Eplans proprietary electrical CAD format .ema, to standard mesh obj format.  \
 
 ## Highlights
 
-- Custom regex highlighter extended from QSyntaxHighlighter
-- Main window manages app flow.  
-    - Global back button with navigation history stack.
-    - Dark mode button updates global settings.
+- Main window manages app flow
+    - Back button with navigation history stack
+    - Typing title animation on construction \
+    ![Title Type Animation](/images/TitleType2.gif) 
+    - Dark/Light mode toggle updates global settings\
+    ![Theme Switch](/images/ThemeSwitch.gif)
+
 - Individual pages encapsulate specific tools.
+    - Custom regex highlighter extended from QSyntaxHighlighter \
+    ![Regex Highlighter](/images/regexHighighter.gif)
+
+
+
+
 
 ## Contact
 - Email: rabclip@4ozstudio.com
