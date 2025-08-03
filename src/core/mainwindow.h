@@ -23,16 +23,16 @@ public:
 
     void openTab(QWidget* inWidget = nullptr);
 
-
 private:
     /** Init Functions **/
     void initializePages();
     void initializeSettings();
     void initializePalettes();
     void initializeTitle();
+    void checkPageForTitleVisibility(QWidget* inPage);
 
     /** Helper Functions **/
-    QString loadStyle(const QString& inPath);
+    QString loadTextResource(const QString& inPath);
     void applyColourTheme();
 
 

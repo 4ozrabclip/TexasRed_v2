@@ -3,4 +3,7 @@
         <file alias="darkmode">styles/dark.qss</file>
         <file alias="lightmode">styles/light.qss</file>
     </qresource>
+    <qresource prefix="/ascii">
+        <file alias="fullTitle">ascii/texas_red_title.txt</file>
+    </qresource>
 </RCC>

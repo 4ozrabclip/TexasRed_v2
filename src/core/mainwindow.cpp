@@ -47,44 +47,24 @@ void MainWindow::initializePages()
 }
 
 
-QString MainWindow::loadStyle(const QString &inPath)
+QString MainWindow::loadTextResource(const QString &inPath)
 {
     QFile file(inPath);
     if (file.open(QFile::ReadOnly | QFile::Text))
         return QString::fromUtf8(file.readAll());
     return {};
 }
+
 void MainWindow::initializeSettings()
 {
     bool isSysDarkMode = qApp->styleHints()->colorScheme() == Qt::ColorScheme::Dark;
     Settings::inst().setDarkMode(isSysDarkMode);
 
-
 }
 
 void MainWindow::initializeTitle()
 {
-    const QString fullTitle =
-R"(  ****           *                                                     ***** ***                 **
-     *  *************                                                   ******  * **                  **
-    *     *********                                                    **   *  *  **                  **
-    *     *  *                                                        *    *  *   **                  **
-     **  *  **                    ***    ***                  ****        *  *    *                   **
-        *  ***            ***    * ***  **** *     ****      * **** *    ** **   *       ***      *** **
-       **   **           * ***      *** *****     * ***  *  **  ****     ** **  *       * ***    *********
-       **   **          *   ***      ***  **     *   ****  ****          ** ****       *   ***  **   ****
-       **   **         **    ***      ***       **    **     ***         ** **  ***   **    *** **    **
-       **   **         ********      * ***      **    **       ***       ** **    **  ********  **    **
-        **  **         *******      *   ***     **    **         ***     *  **    **  *******   **    **
-         ** *      *   **          *     ***    **    **    ****  **        *     **  **        **    **
-          ***     *    ****    *  *       *** * **    **   * **** *     ****      *** ****    * **    **
-           *******      *******  *         ***   ***** **     ****     *  ****    **   *******   *****
-             ***         *****                    ***   **            *    **     *     *****     ***
-                                                                      *
-                                                                       **
-
-
-                                                                                                           )";
+    const QString fullTitle = loadTextResource(":/ascii/fullTitle");
 
     m_titleIndex = 0;
 
@@ -101,6 +81,13 @@ R"(  ****           *                                                     ***** 
 
 }
 
+void MainWindow::checkPageForTitleVisibility(QWidget *inPage)
+{
+    bool showTitle = (inPage == ui->frontPage || inPage == ui->converterToolsPage || inPage == ui->regexToolsPage);
+
+    ui->titleLabel->setVisible(showTitle);
+}
+
 void MainWindow::openTab(QWidget *inWidget)
 {
     if (!ui || !ui->stackedWidget)
@@ -113,6 +100,8 @@ void MainWindow::openTab(QWidget *inWidget)
         qDebug() << "page to open is nullptr";
         return;
     }
+
+    checkPageForTitleVisibility(inWidget);
 
     if (inWidget == ui->frontPage)
     {
@@ -137,7 +126,7 @@ void MainWindow::applyColourTheme()
 
     QString styleSheetPath = isDarkMode ? ":/styles/darkmode" : ":/styles/lightmode";
 
-    qApp->setStyleSheet(loadStyle(styleSheetPath));
+    qApp->setStyleSheet(loadTextResource(styleSheetPath));
 
 }
 
@@ -159,6 +148,9 @@ void MainWindow::on_backButton_clicked()
     if (navHistory.isEmpty()) return;
 
     QWidget* lastPage = navHistory.pop();
+
+    checkPageForTitleVisibility(lastPage);
+
     ui->stackedWidget->setCurrentWidget(lastPage);
     ui->backButton->setVisible(lastPage != ui->frontPage);
 }
