@@ -3,28 +3,39 @@
 
 #include <QObject>
 struct Vertex {
-    int index;
     float x, y, z;
 };
-struct Face {
-    QVector<int> indices;
-};
-struct MeshSection {
-    int faceCount;
-    QVector<Face> faces;
-};
+// struct Face {
+//     QVector<int> indices;
+// };
+// struct MeshSection {
+//     int faceCount;
+//     QVector<Face> faces;
+// };
 class EmaTo3dParser : public QObject
 {
     Q_OBJECT
 public:
     explicit EmaTo3dParser(QObject *parent = nullptr);
 
-    QString parseToObj(const QString& rawData);
+    bool processEmaFile(const QString& rawData, QString& outData);
 
-    QString buildObjContent(const QMap<int, Vertex> &vertices, const QVector<MeshSection> &meshSections);
-    QVector<MeshSection> parseMeshSections(const QString &data);
-    QMap<int, Vertex> parseVertices(const QString &data);
-signals:
+    QVector<Vertex> getVertices() const { return vertices; }
+    QVector<QVector<int>> getFaces() const { return faces; }
+
+
+private:
+    QVector<Vertex> vertices;
+    QVector<QVector<int>> faces;
+
+    const QString PADDING = "4294967295";
+
+    QString getUniqueFilename(const QString& basePath) const;
+    QVector<QVector<int>> triangulateStrip(const QVector<int>& stripIndices) const;
+    QVector<QVector<int>> cleanAndGroupFaceIndices(const QStringList& parts, int vertexCount) const;
+    QString buildObjString() const;
+    void parseEmaData(const QString& rawData, QVector<Vertex>& outVertices, QStringList& outOtherParts) const;
+
 };
 
 #endif // EMATO3DPARSER_H

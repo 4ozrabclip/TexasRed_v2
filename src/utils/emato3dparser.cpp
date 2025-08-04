@@ -5,11 +5,14 @@
 #include <QRegularExpression>
 
 
-
 /**
  *
- *  Currently this parser is not working since attempting conversion to C++.
- *  Incomplete due to time restraints.
+ *  This parser has been converted from my original attempt at this parser, which was done solo by me.
+ *  Vertexes are correct, however the face blocks headers were incorrectly analyzed at the time.
+ *
+ *  The previous commit was meant to be the final product of the parser, converted to QT C++.
+ *  However that wasn't working and I didn't understand the logic fully since it was completed and redesigned by my ex-coworker.
+ *
  *
  **/
 
@@ -17,117 +20,125 @@ EmaTo3dParser::EmaTo3dParser(QObject *parent)
     : QObject{parent}
 {}
 
-QString EmaTo3dParser::parseToObj(const QString& data) {
-    QMap<int, Vertex> vertices = parseVertices(data);
-    QVector<MeshSection> meshSections = parseMeshSections(data);
+bool EmaTo3dParser::processEmaFile(const QString& rawData, QString& outData)
+{
+    static const QRegularExpression regex(R"(<Stream Id="62491"><!\[CDATA\[(.*?)\]\]></Stream>)", QRegularExpression::DotMatchesEverythingOption);
+    static const QRegularExpressionMatch match = regex.match(rawData);
 
-    return buildObjContent(vertices, meshSections);
+    if (!match.hasMatch()) return false;
+
+
+    QStringList nonVertexParts;
+
+    parseEmaData(rawData, vertices, nonVertexParts);
+
+    faces = cleanAndGroupFaceIndices(nonVertexParts, vertices.size());
+
+    if (faces.isEmpty()) return false;
+
+    outData = buildObjString();
+
+    return true;
 }
-QMap<int, Vertex> EmaTo3dParser::parseVertices(const QString& data) {
-    QMap<int, Vertex> vertices;
-    QStringList lines = data.split(",", Qt::SkipEmptyParts);
-    int vertexIndex = 0;
 
-    static const QRegularExpression coordPattern(
-        R"(^([+-]?\d*\.?\d+(?:[eE][+-]?\d+)?)/([-+]?\d*\.?\d+(?:[eE][+-]?\d+)?)/([-+]?\d*\.?\d+(?:[eE][+-]?\d+)?)$)"
-        );
+QVector<QVector<int> > EmaTo3dParser::cleanAndGroupFaceIndices(const QStringList &parts, int vertexCount) const
+{
+    QVector<int> validIndices;
+    bool inPaddingBlock = false, inFaceBlock = false, faceBlockInitial = false;
 
-    for (int i = 0; i < lines.size() - 1; ++i) {
-        QString line = lines[i].trimmed();
-        if (line.isEmpty() || line.contains("*"))
-            break;
+    QString faceBlockIndicator;
 
-        QRegularExpressionMatch match = coordPattern.match(line);
-        if (match.hasMatch()) {
-            Vertex v { vertexIndex,
-                     match.captured(1).toFloat(),
-                     match.captured(2).toFloat(),
-                     match.captured(3).toFloat() };
-            vertices[vertexIndex++] = v;
-        }
-    }
-    return vertices;
-}
-QVector<MeshSection> EmaTo3dParser::parseMeshSections(const QString& data) {
-    QVector<MeshSection> meshSections;
-    QStringList sections = data.split("*", Qt::SkipEmptyParts);
-
-    for (int i = 1; i < sections.size(); ++i) {
-        QString section = sections[i].trimmed();
-        if (section.isEmpty()) continue;
-
-        QStringList parts = section.split(",", Qt::SkipEmptyParts);
-        if (parts.size() < 2) continue;
-
-        int faceCount = parts[1].toInt();
-        if (faceCount <= 0) continue;
-
-        QVector<int> faceIndices;
-        for (int j = 2; j < parts.size(); ++j) {
-            if (parts[j] == "4294967295") break;
-            bool ok = false;
-            quint32 idx = parts[j].toUInt(&ok);
-            if (!ok || idx == 4294967295) break;
-            faceIndices.append(idx);
-        }
-
-        QVector<Face> faces;
-        for (int k = 0; k + 5 < faceIndices.size(); k += 6) {
-            faces.append({ { faceIndices[k], faceIndices[k+2], faceIndices[k+4] } });
-        }
-
-        meshSections.append({faceCount, faces});
-    }
-
-    return meshSections;
-}
-QString EmaTo3dParser::buildObjContent(const QMap<int, Vertex>& vertices,
-                                       const QVector<MeshSection>& meshSections) {
-    QString objContent;
-    objContent += "# Generated OBJ file from custom mesh format\n";
-    objContent += QString("# %1 vertices, %2 faces\n\n")
-                      .arg(vertices.size())
-                      .arg(std::accumulate(meshSections.begin(), meshSections.end(), 0,
-                                           [](int sum, const MeshSection& sec) {
-                                               return sum + sec.faces.size();
-                                           }));
-
-    QList<Vertex> sortedVertices = vertices.values();
-    std::sort(sortedVertices.begin(), sortedVertices.end(),
-              [](const Vertex& a, const Vertex& b) { return a.index < b.index; });
-
-    QMap<int, int> vertexIndexMap;
-    for (int i = 0; i < sortedVertices.size(); ++i) {
-        const Vertex& v = sortedVertices[i];
-        objContent += QString("v %1 %2 %3\n").arg(v.x).arg(v.y).arg(v.z);
-        vertexIndexMap[v.index] = i + 1;
-    }
-    objContent += "\n";
-
-    if (!meshSections.isEmpty()) {
-        objContent += "o Root\n";
-    }
-
-    int totalFaces = 0;
-    for (int sectionIndex = 0; sectionIndex < meshSections.size(); ++sectionIndex) {
-        const MeshSection& section = meshSections[sectionIndex];
-        objContent += QString("# Mesh section %1 (%2 faces)\n")
-                          .arg(sectionIndex + 1)
-                          .arg(section.faces.size());
-
-        for (const Face& face : section.faces) {
-            QStringList faceLine;
-            for (int idx : face.indices) {
-                faceLine << QString::number(idx + 1);
+    size_t i = 0;
+    while (i < parts.size())
+    {
+        const QString& part = parts[i];
+        if (inFaceBlock && faceBlockInitial) {
+            faceBlockIndicator = part;
+            faceBlockInitial = false;
+        } else if (inFaceBlock && part == faceBlockIndicator) {
+            inFaceBlock = false;
+        } else if (inFaceBlock) {
+            bool ok;
+            int idx = part.toInt(&ok);
+            if (ok) validIndices.append(idx);
+        } else if (inPaddingBlock) {
+            if (part == "*") {
+                inPaddingBlock = false;
+                inFaceBlock = true;
+                faceBlockInitial = true;
             }
-            if (faceLine.size() >= 3) {
-                objContent += "f " + faceLine.join(" ") + "\n";
-                ++totalFaces;
-            }
+        } else if (part == PADDING) {
+            inPaddingBlock = true;
         }
-        objContent += "\n";
+        ++i;
     }
 
-    objContent += QString("# Total faces written: %1\n").arg(totalFaces);
-    return objContent;
+    return triangulateStrip(validIndices);
+
+}
+QVector<QVector<int>> EmaTo3dParser::triangulateStrip(const QVector<int>& stripIndices) const
+{
+    QVector<QVector<int>> triangles;
+    for (int i = 0; i < stripIndices.size() - 2; ++i) {
+        int v0 = stripIndices[i];
+        int v1 = stripIndices[i + 1];
+        int v2 = stripIndices[i + 2];
+        QVector<int> triangle = (i % 2 == 0) ? QVector<int>{v0, v1, v2} : QVector<int>{v0, v2, v1};
+
+        if (v0 != v1 && v1 != v2 && v0 != v2)
+            triangles.append(triangle);
+    }
+    return triangles;
+}
+QString EmaTo3dParser::buildObjString() const
+{
+    QString result;
+    QTextStream out(&result);
+
+    out << "# EMA 3D Mesh Export\n";
+    out << "# Vertices: " << vertices.size() << "\n";
+    out << "# Faces: " << faces.size() << "\n\n";
+
+    for (const Vertex& v : vertices)
+        out << QString("v %1 %2 %3\n").arg(v.x, 0, 'f', 6).arg(v.y, 0, 'f', 6).arg(v.z, 0, 'f', 6);
+
+    out << "\n";
+    for (const QVector<int>& face : faces) {
+        out << "f";
+        for (int idx : face)
+            out << " " << (idx + 1);
+        out << "\n";
+    }
+
+    return result;
+}
+
+void EmaTo3dParser::parseEmaData(const QString& rawData, QVector<Vertex>& outVertices, QStringList& outOtherParts) const
+{
+    const QStringList parts = rawData.split(",", Qt::SkipEmptyParts);
+
+    for (int i = 0; i < parts.size() - 1; ++i)
+    {
+        QString trimmedPart = parts[i].trimmed();
+        if (trimmedPart.contains("/"))
+        {
+            constexpr short neededCoordsSize = 3;
+            const QStringList coords = trimmedPart.split("/");
+            if (coords.size() == neededCoordsSize)
+            {
+                bool ok1, ok2, ok3;
+                float x = coords[0].toFloat(&ok1);
+                float y = coords[1].toFloat(&ok2);
+                float z = coords[2].toFloat(&ok3);
+                if (ok1 && ok2 && ok3)
+                {
+                    outVertices.append({x, y, z});
+                }
+            }
+        }
+        else
+        {
+            outOtherParts.append(trimmedPart);
+        }
+    }
 }

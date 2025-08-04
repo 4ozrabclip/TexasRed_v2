@@ -50,20 +50,25 @@ void emaTo3dConverterPage::on_convertButton_clicked()
     QString rawData = QString::fromUtf8(inputFile.readAll());
     inputFile.close();
 
-    QString objContent = m_parser->parseToObj(rawData);
+    QString objContent;
 
-    QFileInfo inputInfo(m_inputPath);
-    QString baseName = inputInfo.completeBaseName();
-    QString outputPath = m_outputDir + "/" + baseName + ".obj";
+    if (m_parser->processEmaFile(rawData, objContent))
+    {
 
-    QFile outputFile(outputPath);
-    if (!outputFile.open(QIODevice::WriteOnly | QIODevice::Text)) return;
+        QFileInfo inputInfo(m_inputPath);
+        QString baseName = inputInfo.completeBaseName();
+        QString outputPath = m_outputDir + "/" + baseName + ".obj";
 
-    QTextStream out(&outputFile);
-    out << objContent;
-    outputFile.close();
+        QFile outputFile(outputPath);
+        if (!outputFile.open(QIODevice::WriteOnly | QIODevice::Text)) return;
 
-    QMessageBox::information(this, "Success", "Conversion complete. OBJ file saved to:\n" + outputPath);
+        QTextStream out(&outputFile);
+        out << objContent;
+        outputFile.close();
+
+        QMessageBox::information(this, "Success", "Conversion complete. OBJ file saved to:\n" + outputPath);
+    }
+
 
 }
 
