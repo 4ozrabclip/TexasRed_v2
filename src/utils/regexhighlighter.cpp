@@ -37,7 +37,6 @@ void RegexHighlighter::highlightBlock(const QString &inText)
     while (i.hasNext()) {
         QRegularExpressionMatch match = i.next();
         if (match.hasMatch()) {
-            qDebug() << "Match:" << match.captured();
             setFormat(match.capturedStart(), match.capturedLength(), m_matchFormat);
         }
     }
