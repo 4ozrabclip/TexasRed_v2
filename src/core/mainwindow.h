@@ -5,7 +5,6 @@
 #include <QMainWindow>
 #include <QStack>
 class RegexSandboxPage;
-class PortScannerPage;
 class emaTo3dConverterPage;
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -38,7 +37,6 @@ private:
 
     /** Pages **/
     RegexSandboxPage* regexSbPage;
-    PortScannerPage* portScannerPage;
     emaTo3dConverterPage* emaTo3dPage;
 
     QStack<QWidget*> navHistory;

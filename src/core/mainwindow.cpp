@@ -7,7 +7,6 @@
 #include "../utils/Settings.h"
 #include "../pages/emato3dconverterpage.h"
 #include "../pages/regexsandboxpage.h"
-#include "../pages/portscannerpage.h"
 
 
 
@@ -35,7 +34,6 @@ MainWindow::~MainWindow()
     m_typingTimer->stop();
     delete m_typingTimer;
     delete regexSbPage;
-    delete portScannerPage;
     delete emaTo3dPage;
     delete ui;
 }
@@ -45,8 +43,6 @@ void MainWindow::initializePages()
 {
     regexSbPage = new RegexSandboxPage(this);
     ui->stackedWidget->addWidget(regexSbPage);
-    portScannerPage = new PortScannerPage(this);
-    ui->stackedWidget->addWidget(portScannerPage);
     emaTo3dPage = new emaTo3dConverterPage(this);
     ui->stackedWidget->addWidget(emaTo3dPage);
 }
@@ -158,10 +154,6 @@ void MainWindow::on_backButton_clicked()
     ui->backButton->setVisible(lastPage != ui->frontPage);
 }
 
-void MainWindow::on_openPortScannerButton_clicked()
-{
-    openTab(portScannerPage);
-}
 void MainWindow::on_openRegexSbButton_clicked()
 {
     openTab(regexSbPage);
