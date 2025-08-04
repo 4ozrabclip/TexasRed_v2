@@ -34,6 +34,9 @@ MainWindow::~MainWindow()
 {
     m_typingTimer->stop();
     delete m_typingTimer;
+    delete regexSbPage;
+    delete portScannerPage;
+    delete emaTo3dPage;
     delete ui;
 }
 

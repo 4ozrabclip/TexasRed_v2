@@ -26,7 +26,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
         src/pages/regexsandboxpage.h src/pages/regexsandboxpage.cpp src/pages/regexsandboxpage.ui
-        src/pages/portscannerpage.h src/pages/portscannerpage.cpp src/pages/portscannerpage.ui
+
         src/utils/regexhighlighter.h src/utils/regexhighlighter.cpp
         src/utils/Settings.h
         src/pages/logfileanalyzerpage.h src/pages/logfileanalyzerpage.cpp src/pages/logfileanalyzerpage.ui

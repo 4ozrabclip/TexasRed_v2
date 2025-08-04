@@ -27,9 +27,7 @@ void emaTo3dConverterPage::on_browseInputButton_clicked()
         m_inputPath = fileName;
         ui->inputFileLineEdit->setText(m_inputPath);
     }
-
 }
-
 
 void emaTo3dConverterPage::on_browseOutputButton_clicked()
 {

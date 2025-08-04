@@ -6,6 +6,12 @@
 
 
 
+/**
+ *
+ *  Currently this parser is not working since attempting conversion to C++.
+ *  Incomplete due to time restraints.
+ *
+ **/
 
 EmaTo3dParser::EmaTo3dParser(QObject *parent)
     : QObject{parent}
@@ -26,8 +32,9 @@ QMap<int, Vertex> EmaTo3dParser::parseVertices(const QString& data) {
         R"(^([+-]?\d*\.?\d+(?:[eE][+-]?\d+)?)/([-+]?\d*\.?\d+(?:[eE][+-]?\d+)?)/([-+]?\d*\.?\d+(?:[eE][+-]?\d+)?)$)"
         );
 
-    for (const QString& rawLine : lines) {
-        QString line = rawLine.trimmed();
+    for (int i = 0; i < lines.size() - 1; ++i) {
+
+        QString line = lines[i].trimmed();
         if (line.isEmpty() || line.contains("*"))
             break;
 
