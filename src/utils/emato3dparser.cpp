@@ -33,7 +33,6 @@ QMap<int, Vertex> EmaTo3dParser::parseVertices(const QString& data) {
         );
 
     for (int i = 0; i < lines.size() - 1; ++i) {
-
         QString line = lines[i].trimmed();
         if (line.isEmpty() || line.contains("*"))
             break;

@@ -50,8 +50,6 @@ private:
 
 
 private slots:
-    void on_openPortScannerButton_clicked();
-
     void on_openRegexSbButton_clicked();
 
     void on_toggleThemeButton_clicked();
